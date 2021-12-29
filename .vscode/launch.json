@@ -3,7 +3,7 @@
     "configurations": [
         {
             "name": "WSL2-USB-Orbuculum",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build/bin",
             "type": "cortex-debug",
             "request": "launch",
             "servertype": "jlink",
@@ -91,7 +91,7 @@
         },
         {
             "name": "WSL2-External",
-            "cwd": "${workspaceFolder}",
+            "cwd": "${workspaceFolder}/build/bin",
             "type": "cortex-debug",
             "request": "launch",
             "servertype": "external",
