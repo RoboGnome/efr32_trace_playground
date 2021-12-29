@@ -1,0 +1,6 @@
+[submodule "libs/platforms"]
+	path = libs/platforms
+	url =../platforms.git
+[submodule "libs/silabs/sdk_support"]
+	path = libs/silabs/sdk_support
+	url = ../sdk_support.git

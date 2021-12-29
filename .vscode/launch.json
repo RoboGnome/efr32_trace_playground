@@ -1,0 +1,108 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "WSL2-USB-Orbuculum",
+            "cwd": "${workspaceFolder}",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "device": "EFR32MG12PxxxF1024",
+            "interface": "swd",
+            "serverpath": "/opt/toolchain/JLink_Linux_V758e_x86_64/JLinkGDBServerCLExe",
+            "executable": "${workspaceFolder}/build/bin/efr32_trace_playground",
+            "svdFile": "${workspaceFolder}/libs/platforms/chipRegisterDescriptions/EFR32MG12P332F1024GL125.svd",
+            "runToEntryPoint": "main",
+            "armToolchainPath": "/opt/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin",
+            "postLaunchCommands": [
+                "source /opt/toolchain/orbuculum/Support/gdbtrace.init",
+                "set mem inaccessible-by-default off",
+                "set print pretty",
+                "load", 
+                "monitor reset 0",
+                "monitor SWO EnableTarget 19000000 1000000 0xFF 0",
+                "dwtSamplePC 1",
+                "dwtSyncTap 3",
+                "dwtPostTap 1",
+                "dwtPostInit 1",
+                "dwtPostReset 15",
+                "dwtCycEna 1",
+                "ITMId 1",
+                "ITMGTSFreq 3",
+                "ITMTSPrescale 3",
+                "ITMTXEna 1",
+                "ITMSYNCEna 1",
+                "ITMEna 1",
+                "ITMTER 0 0xFFFFFFFF",
+                "ITMTPR 0xFFFFFFFF"],
+        },
+        {
+            "name": "WSL2-USB-SWO",
+            "cwd": "${workspaceFolder}/build/bin",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "jlink",
+            "device": "EFR32MG12PxxxF1024",
+            "interface": "swd",
+            "serverpath": "/opt/toolchain/JLink_Linux_V758e_x86_64/JLinkGDBServerCLExe",
+            "executable": "${command:extension.commandvariable.file.fileDirBasename}",
+            "svdFile": "${workspaceFolder}/libs/platforms/chipRegisterDescriptions/EFR32MG12P332F1024GL125.svd",
+            "runToEntryPoint": "main",
+            "armToolchainPath": "/opt/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin",
+            "postLaunchCommands": ["monitor halt", "monitor reset"],
+            "swoConfig":{
+                "enabled":true,
+                "source":"probe",
+                "swoFrequency": 1000000,
+                "cpuFrequency":19000000,
+                "decoders": [
+                    {
+                        "port": 0,
+                        "type": "console",
+                        "label": "SWO output",
+                        "encoding":"ascii"
+                    },
+                    {
+                        "type": "graph",
+                        "port": 1,      
+                        "encoding": "unsigned",
+                        "graphId": "1", 
+                        "scale": 1
+                    },
+                ]
+            },
+            "graphConfig": [
+                {
+                    "label": "Graph 1",
+                    "timespan": 5,
+                    "type": "realtime",
+                    "annotate": true,
+                    "maximum": 10,
+                    "minimum": 0,
+                    "plots": [
+                        {
+                            "graphId": "1", 
+                            "label": "data 1",
+                            "color": "#53753c"
+                        }
+                    ]
+                },
+            ]
+        },
+        {
+            "name": "WSL2-External",
+            "cwd": "${workspaceFolder}",
+            "type": "cortex-debug",
+            "request": "launch",
+            "servertype": "external",
+            "gdbTarget": "${env:WSL_HOST_IP}:2331",
+            "executable": "${workspaceFolder}/build/bin/efr32_trace_playground",
+            "svdFile": "${workspaceFolder}/libs/platforms/chipRegisterDescriptions/EFR32MG12P332F1024GL125.svd",
+            "runToEntryPoint": "main",
+            "armToolchainPath": "/opt/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin",
+            "preLaunchTask": "launchJLink",
+            "postDebugTask": "postDebugKill",
+            "postLaunchCommands": ["monitor halt", "monitor reset"],
+        }
+    ]
+}
