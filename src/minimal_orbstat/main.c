@@ -12,7 +12,6 @@
 #include "em_emu.h"
 #include "em_gpio.h"
 #include "bsp_trace.h"
-
 #include "add.h"
 
 #define RED 8
@@ -28,7 +27,6 @@ int main()
 {
     CHIP_Init();
     CMU_ClockEnable(cmuClock_GPIO, true);
-    //BSP_TraceSwoSetup();
 
     // Initialize LED driver
     GPIO_PinModeSet(gpioPortD, RED, gpioModePushPull, 0);
