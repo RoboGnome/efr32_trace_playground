@@ -1,3 +1,7 @@
+/**
+*  From http://shadetail.com/blog/swo-instrumentation-first-tunes/
+*/
+
 #include "em_device.h"  
 #define TRACE_CHANNEL (30)
 #define DELAY_TIME (0)

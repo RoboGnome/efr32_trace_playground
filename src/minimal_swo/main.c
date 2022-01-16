@@ -1,6 +1,7 @@
 /**
- *  Simple blinky example using the sdk_support library on a thunderboard sense 2
- * 
+ *  Simple cortex-debug enabled SWO example.
+ *  Use the "WSL2-USB-SWO" vscode launch configuration to enable the cortex-debug
+ *  SWO integrated terminal and graph plot.
  */
 
 #include <stdint.h>

@@ -1,6 +1,22 @@
 /**
- *  Simple blinky example using the sdk_support library on a thunderboard sense 2
- * 
+ *  Simple DWT/ITM based PC sampling example with orbtop.
+ *  Use the "WSL2-USB-Orbuculum" vscode launch configuration to 
+ *  enable PC sampling using the DWT unit on the efr32.
+ *  Set the PC sampling spped in the .vscode/launch.json to: dwtPostTap 0 & dwtPostReset 15
+ *
+ *  After starting the debugging session, let the cpu run and start orbtop with:
+ *      orbtop -e build/bin/minimal_orbtop -v2 -c 15 -s localhost:50001
+ *
+ *  You should see something like this: (dwtPostTap 0 & dwtPostReset 15)
+ *      51.38%  9573 addFloat
+ *      48.33%  9005 addInt
+ *      0.15%  29 GPIO_PinOutToggle
+ *      0.12%  23 main
+ *      -----------------
+ *      99.98%     18630 of  18630  Samples
+ *  
+ *      [-S-H] Interval = 999mS
+ *      Ovf=0  ITMSync= 40 TPIUSync=  0 ITMErrors=  0
  */
 
 #include <stdint.h>
@@ -28,7 +44,6 @@ int main()
 {
     CHIP_Init();
     CMU_ClockEnable(cmuClock_GPIO, true);
-    //BSP_TraceSwoSetup();
 
     // Initialize LED driver
     GPIO_PinModeSet(gpioPortD, RED, gpioModePushPull, 0);
@@ -36,7 +51,7 @@ int main()
 
     uint32_t i = 0;
     bool ascending = true;
-
+    uint32_t t = TPI->ACPR;
     while (1)
     {
         addInt(1, 2);

@@ -15,17 +15,19 @@
             "runToEntryPoint": "main",
             "armToolchainPath": "/opt/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin",
             "postLaunchCommands": [
-                "source /opt/toolchain/orbuculum/Support/gdbtrace.init",
+                "source ${workspaceFolder}/../orbuculum/Support/gdbtrace.init",
                 "set mem inaccessible-by-default off",
                 "set print pretty",
                 "load", 
                 "monitor reset 0",
                 "monitor SWO EnableTarget 19000000 1500000 0xFF 0",
+                "enableEFR32MG12SWO",
+                "prepareSWO 19000000 1500000 0 0",
                 "dwtSamplePC 1",
                 "dwtSyncTap 1",
                 "dwtPostTap 1",
                 "dwtPostInit 1",
-                "dwtPostReset 8",
+                "dwtPostReset 15",
                 "dwtCycEna 1",
                 "ITMId 1",
                 "ITMGTSFreq 3",
@@ -103,15 +105,6 @@
             "preLaunchTask": "launchJLink",
             "postDebugTask": "postDebugKill",
             "postLaunchCommands": ["monitor halt", "monitor reset"],
-        },
-        {
-            "name": "Bash-Debug",
-            "type": "bashdb",
-            "terminalKind": "integrated",
-            "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "program": "${file}",
-            "args": ["--orbuculum"],
-        },
+        }
     ]
 }
