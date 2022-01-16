@@ -1,6 +1,37 @@
 /**
- *  Simple blinky example using the sdk_support library on a thunderboard sense 2
+ *  Simple DWT/ITM based function profiling example with orbstat.
+ *  Use the "WSL2-USB-Orbuculum" vscode launch configuration to 
+ *  enable PC sampling using the DWT unit on the efr32.
+ *  Set the PC sampling speed in the .vscode/launch.json to: dwtPostTap 1 & dwtPostReset 15
+ *
+ *  The source itm_trace_function.c contains the function instrumentation needed by orbstat to
+ *  track the entry and exit of functions. 
+ *   See http://shadetail.com/blog/swo-instrumentation-first-tunes/ for more information.
+ *
+ *  After starting the debugging session, let the cpu run and start orbstat with:
+ *      orbstat -e build/bin/minimal_orbstat -v2 -z ./kcachegrind_test -s localhost:50001
+ *
+ *  You should see something like this: (dwtPostTap 0 & dwtPostReset 15)
+ *       Server        : localhost:50001
+ *       Delete Mat    : None
+ *       Elf File      : build/bin/minimal_orbstat
+ *       DOT file      : None
+ *       ForceSync     : true
+ *       Trace/File Ch : 30/29
+ *       ITM In Sync (1)
+ *       ITM In Sync (2)
+ *       ITM In Sync (3)
+ *       ITM In Sync (4)
+ *       ITM In Sync (5)
+ *       12872 records processed
+ *       ITM In Sync (6)
+ *       ITM In Sync (7)
+ *       2944 records processed
+ *
+ *  After a couple of seconds stop orbstat and inspect the data with kcachegrind:
+ *      OBJDUMP=/opt/toolchain/orbuculum/objdumpkc.sh kcachegrind kcachegrind_test
  * 
+ *  See also: http://shadetail.com/blog/swo-instrumentation-building-the-orchestra/
  */
 
 #include <stdint.h>
