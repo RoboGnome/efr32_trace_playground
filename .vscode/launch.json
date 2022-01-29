@@ -15,7 +15,7 @@
             "runToEntryPoint": "main",
             "armToolchainPath": "/opt/toolchain/gcc-arm-none-eabi-10.3-2021.10/bin",
             "postLaunchCommands": [
-                "source ${workspaceFolder}/../orbuculum/Support/gdbtrace.init",
+                "source /opt/toolchain/orbuculum/Support/gdbtrace.init",
                 "set mem inaccessible-by-default off",
                 "set print pretty",
                 "load", 
@@ -24,7 +24,7 @@
                 "enableEFR32MG12SWO",
                 "prepareSWO 19000000 1500000 0 0",
                 "dwtSamplePC 1",
-                "dwtSyncTap 1",
+                "dwtSyncTap 3",
                 "dwtPostTap 1",
                 "dwtPostInit 1",
                 "dwtPostReset 15",
